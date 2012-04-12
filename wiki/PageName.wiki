@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+somce resources from cocoa.com belowed
+
+
+= Details =
+
+cocoacontrols.com 收集了很多UI控件效果代码，缺点是需要翻墙，而且代码分类不够好。
+code4app.com，国内有个类似的，大部分代码来自github，但是做了中文翻译和效果截图，支持搜索，比较好用。缺点是代码还没有那么多。
+www.mopapp.com/directory/best-resources-iphone-developers 基本汇集比较热门的iOS免费开发资源，大多数代码我都是从这里面找的。
+cocoalit.com 也是个十分齐全的代码库，分类十分清楚。
