@@ -1,0 +1,113 @@
+#labels ShareKit
+http://marshluca.iteye.com/blog/758710
+
+ShareKit 是iPhone中一键分享文字，图片，链接，文件到Facebook, twitter, delicious, tumblr, google reader等第三方网站的objc库 
+(1) Download : http://getsharekit.com/d/ShareKit.0.2.1.zip 
+(2) Github : http://github.com/ideashower/sharekit/ 
+
+详细配置如下： 
+
+一.首先需要在SHKConfig.h中针对应用的名称和回调链接作一个全局设置: 
+Java代码  
+#define SHKMyAppName            @"iSports"  
+#define SHKMyAppURL             @"http://itunes.apple.com/cn/app/id388833522?mt=8"  
+
+
+二.第三方平台API Key的配置 
+
+1.Facebook 
+<1>.创建一个application（http://www.facebook.com/developers/） 
+<2>.将上面生成的key对应到SHKConfig.h： 
+Java代码  
+#define SHKFacebookUseSessionProxy        NO  
+#define SHKFacebookKey                    @"e5aeb908d24f4c7ace1a623374280869"  
+#define SHKFacebookSecret                 @"b09478d7873bd4779f387c3e58f9df93"  
+#define SHKFacebookSessionProxyURL        @"" // left it blank here  
+
+
+2.Twitter 
+<1>.创建一个基于browser的application (http://dev.twitter.com/apps/new) 
+<2>.将上面生成的key对应到SHKConfig.h: 
+Java代码  
+#define SHKTwitterConsumerKey        @"oUYTCJTaB1BmQnIBDKPMTg"  
+#define SHKTwitterSecret             @"U4CDOvOTvUnEfHuEUfrvphQ96UFZYv87R6q7ZG1jsM"  
+#define SHKTwitterCallbackUrl        @"http://itunes.apple.com/cn/app/id388833522?mt=8"  
+#define SHKTwitterUseXAuth           0 // To use xAuth, set to 1  
+#define SHKTwitterUsername           @""  // left it blank here , if use xAuth  
+
+
+3.Bit.ly (for shortening URLs on Twitter： 
+(1)注册Bit.lyAPI key: http://bit.ly/a/your_api_key) 
+Java代码  
+#define SHKBitLyLogin                @"marshluca"  
+#define SHKBitLyKey                  @"R_0177fa6e25c72544cb72bc5ec3150b4d"  
+
+
+4.Read it Later 
+(1).注册API Key:（http://readitlaterlist.com/api/?shk) 
+Java代码  
+#define SHKReadItLaterKey            @"7d1dbZ6dTdh6ay8d42Ac1a3V7dgbQe1a"  
+
+
+5.Tumblr  (不需要配置API Key) 
+
+6.Google Reader (不需要配置API Key) 
+
+
+三.调用代码： 
+
+Java代码  
+- (void)loadToolbar  
+{  
+   UIBarButtonItem *spaceItem = [[[UIBarButtonItem alloc]  
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  
+                                  target:self  
+                                  action:nil] autorelease];              
+     
+   UIBarButtonItem *shareItem = [[[UIBarButtonItem alloc]                  
+                                 initWithBarButtonSystemItem:UIBarButtonSystemItemAction    
+                                 target:self    
+                               action:@selector(shareLink)] autorelease];  
+     
+   CGRect rect = CGRectMake(0,392, 320, 44);  
+   UIToolbar *toobar = [[[UIToolbar alloc] initWithFrame:rect] autorelease];  
+   toobar.barStyle = UIBarStyleBlackOpaque;      
+   toobar.items = [[NSArray alloc] initWithObjects:spaceItem,shareItem,spaceItem,nil];  
+   [self.view addSubview:toobar];      
+}  
+  
+  
+- (void)shareLink  
+{  
+   NSURL *sharedURL = [NSURL URLWithString:@"http://www.google.com"];  
+   SHKItem *item = [SHKItem URL:sharedURL title:@"Google Test"];  
+   SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];  
+   [actionSheet showFromToolbar:self.navigationController.toolbar];  
+}  
+
+
+
+
+四.注意： 
+1.只有Facebook， Twitter采用的是OAuth Connect 
+
+2.如果采取的是TabBarViewController结构的话，需要为每一个Share View对应的RooViewController做如下设置:（官方文档中没有说明这一点） 
+（1）先引入：#import "SHK.h" 
+（2）在RootViewController初始化的地方加上：[SHK setRootViewController:self]; 
+
+3.不同APP不能共享一个OAuth Connect Secret Key , 否则在twitter和facebook分享的时候出现客户端分享成功，但是却没有真正提交到第三方网站的假分享.(一个mobile app必须严格对应一个facebook, twitter app) 
+
+
+五.截图： 
+<1>. Facebook: 
+ 
+
+<2>.Twitter： 
+ 
+
+<3>Tumblr： 
+ 
+
+<4>Google Reader： 
+ 
+参考： http://getsharekit.com/install/
